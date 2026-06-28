@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr;
+}
+
+#registration-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr 1fr;
+
+    width: 25%;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.7);
+    margin: auto;
+}
+
+#registration-block > form {
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 95%;
+
+    margin-right: auto;
+    margin-left: auto;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#registration-title {
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    line-height: 80px;
+}
+
+#name {
+    width: 50%;
+    height: 38px;
+    flex-shrink: 0;
+}
+
+#password {
+    width: 50%;
+    height: 38px;
+    flex-shrink: 0;
+}
+
+#description {
+    width: 50%;
+    resize: none;
+    min-height: 120px;
+}
+
+#avatar-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    width: 50%;
+    color: white;
+    height: 38px;
+    flex-shrink: 0;
+
+    text-align: center;
+}
+
+#avatar-label {
+    color: gray;
+}
+
+#registration-button {
+    width: 50%;
+    height: 38px;
+    flex-shrink: 0;
+}
+
+form > * {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#login-button {
+    text-align: center;
+    font-size: 20px;
+    color: gray;
+    line-height: 80px;
+    text-decoration: none;
+}
+
+#login-button:hover {
+    color: #aaa;
+}
+
+#error {
+    width: 25%;
+    height: 50px;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    margin-right: auto;
+    margin-left: auto;
+
+    opacity: 0;
+
+    text-align: center;
+
+    animation: hide 4s;
+}
+
+#error > b {
+    font-size: 20px;
+    line-height: 50px;
+    color: red;
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

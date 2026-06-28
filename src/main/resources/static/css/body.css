@@ -1,0 +1,11 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr 50px;
+    height: 100dvh;
+
+    background-image: url('/images/body/grass_texture.png');
+    background-repeat: repeat;
+    background-size: 64px;
+    background-attachment: fixed;
+}

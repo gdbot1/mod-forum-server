@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/catalog.css"/>
+    <link rel="stylesheet" href="/css/creator/creators_catalog.css"/>
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <div id="search-block">
+        <input type="text" id="search-input" placeholder="Search..." th:value="${search}">
+        <button type="button" onclick="window.location.href = '/creators/page=0&search=' + document.getElementById('search-input').value;">Find</button>
+    </div>
+    <div id="catalog-block" th:style="'height: ' + ${page_size * (100 + 10)} + 'px;'">
+        <div th:each="creatori, i : ${creators}">
+            <a class="creator-block" th:href="@{'/creator/'+${creatori.id}}">
+                <img th:src="@{'/images/creators/' + ${creatori.imagePath}}">
+                <div>
+                    <b class="creator-name" th:text="${creatori.name}"></b>
+                    <span class="creator-desc" th:text="${creatori.description}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div th:replace="~{common/pagination :: pagination('/creators', '')}"></div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

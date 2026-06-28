@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Creator</title>
+</head>
+<body>
+<div id="creator-block" th:fragment="creator-block(creator, sources)">
+    <div class="first">
+        <img th:src="@{'/images/creators/' + ${creator.imagePath}}">
+        <a th:if="${is_own} == true" class="creator-edit" th:href="@{'/creator/' + ${creator.id} + '/update'}">Edit</a>
+    </div>
+    <div class="second">
+        <b class="creator-name">
+            <th:block th:text="${creator.name}"></th:block>
+            <span class="creator-reg-date" th:text="@{'reg: ' + ${creator.registrationDate}}"></span>
+        </b>
+        <span class="creator-desc" th:text="${creator.description}"></span>
+        <div class="sources-block">
+            <b class="sources-title">Links:</b>
+            <a th:each="source : ${sources}" th:href="${source.link}" th:text="${source.srcType}" target="_blank"></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

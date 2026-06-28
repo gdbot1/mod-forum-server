@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagination</title>
+</head>
+<body>
+    <div id="pages-block" th:fragment="pagination(path, prefix)">
+        <a th:if="${page > 0}" th:href="${path + '/page=0&search=' + search + prefix}">&lt;&lt;</a>
+        <b th:unless="${page > 0}">&lt;&lt;</b>
+        <a th:if="${page > 0}" th:href="${path + '/page=' + (page - 1) + '&search=' + search + prefix}">&lt;</a>
+        <b th:unless="${page > 0}">&lt;</b>
+        <th:block th:each="pagei, i : ${pages}">
+            <a th:if="${pagei < (pages_count) && pagei >= 0 && pagei != page}" th:href="${path + '/page=' + pagei + '&search=' + search + prefix}" th:text="${pagei + 1}"></a>
+            <b th:if="${pagei == page}" th:text="${pagei + 1}"></b>
+        </th:block>
+        <a th:if="${page < (pages_count - 1)}" th:href="${path + '/page=' + (page + 1) + '&search=' + search + prefix}">&gt;</a>
+        <b th:unless="${page < (pages_count - 1)}">&gt;</b>
+        <a th:if="${page < (pages_count - 1)}" th:href="${path + '/page=' + (pages_count - 1) + '&search=' + search + prefix}">&gt;&gt;</a>
+        <b th:unless="${page < (pages_count - 1)}">&gt;&gt;</b>
+    </div>
+</body>
+</html>

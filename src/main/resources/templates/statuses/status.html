@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/body.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/statuses/status.css">
+</head>
+<body>
+    <div th:replace="~{common/header :: header}"></div>
+    <div id="content">
+        <h1 class="message" th:text="${message}"></h1>
+        <h class="description" th:text="${description}"></h>
+    </div>
+    <div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

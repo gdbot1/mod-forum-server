@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/catalog.css"/>
+    <link rel="stylesheet" href="/css/mod/mods_catalog.css"/>
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <div id="search-block">
+        <input type="text" id="search-input" placeholder="Search..." th:value="${search}">
+        <label>
+            <input type="radio" name="filter" value="mod"
+                   th:checked="${!#strings.equals(filter, 'creator')}">
+            mod
+        </label>
+        <label>
+            <input type="radio" name="filter" value="creator"
+                   th:checked="${#strings.equals(filter, 'creator')}">
+            creator
+        </label>
+        <button type="button" onclick="
+            const searchVal = document.getElementById('search-input').value;
+            const filterVal = document.querySelector('input[name=\'filter\']:checked')?.value || 'mod';
+            window.location.href = '/mods/page=0&search=' + searchVal + '&filter=' + filterVal;
+        ">Find</button>
+    </div>
+    <div id="catalog-block" th:style="'height: ' + ${page_size * (100 + 10)} + 'px;'">
+        <div th:each="modi, i : ${mods}">
+            <a class="mod-block" th:href="@{'/mod/'+${modi.id}}">
+                <img th:src="@{'/images/mods/' + ${modi.imagePath}}">
+                <!--<b class="mod-index" th:text="@{${i.index + (page * page_size) + 1} + ')'}"></b>-->
+                <div>
+                    <div>
+                        <b class="mod-name">
+                            <th:block th:text="${modi.name}"></th:block>
+                            <span class="mod-creator" th:text="@{'by ' + ${map[modi.creatorId].name}}"></span>
+                            <img class="mod-creator-image" th:src="@{'/images/creators/' + ${map[modi.creatorId].imagePath}}">
+                        </b>
+                       <!--<a class="mod-name" th:text="${modi.name}" th:href="@{'/mod/'+${modi.id}}"></a>
+                       <a class="mod-creator" th:text="@{'author: ' + ${map[modi.creatorId].name}}" th:href="@{'/mod/'+${modi.id}}"></a>-->
+                    </div>
+                    <span class="mod-desc" th:text="${modi.description}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div th:replace="~{common/pagination :: pagination('/mods', ${'&filter=' + filter})}"></div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

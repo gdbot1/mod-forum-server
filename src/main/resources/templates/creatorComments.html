@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/creator/creator.css"/>
+    <link rel="stylesheet" href="/css/creator/creator_comments.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:inline="javascript">const id = [[${id}]];</script>
+
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <div th:replace="~{common/creator :: creator-block(${creator}, ${sources})}"></div>
+    <div class="buttons-select-block">
+        <a class="unselected" th:href="'/creator/' + ${creator.id} + '/mods'">Модi</a>
+        <b class="selected">Коментарi</b>
+    </div>
+    <div id="chat"></div>
+    <div id="enter-message-form">
+        <input type="text" id="input-message" placeholder="Enter your message...">
+        <button type="button" id="send-message" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+<script src="/js/creator/creatorComments.js"></script>
+</body>
+</html>

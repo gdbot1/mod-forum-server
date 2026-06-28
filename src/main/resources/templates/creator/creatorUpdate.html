@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/creator/creator.css"/>
+    <link rel="stylesheet" href="/css/creator/creator_update.css"/>
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <form th:action="@{'/creator/' + ${id} + '/update'}" method="post" enctype="multipart/form-data">
+        <div id="creator-block" th:fragment="creator-block(creator, sources)">
+            <div class="first">
+                <img th:src="@{'/images/creators/' + ${creator.imagePath}}">
+                <button id="update-button" type="submit">Update</button>
+            </div>
+            <div class="second">
+                <input id="creator-name" name="username" type="text" placeholder="Enter your name" th:value="${creator.name}">
+                <textarea id="creator-desc" name="description" placeholder="Enter your description" th:text="${creator.description}" rows="10" cols="40"></textarea>
+                <div id="creator-avatar-block">
+                    <span id="creator-avatar-label">You can change your avatar image: <input id="creator-avatar" name="avatar" type="file"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

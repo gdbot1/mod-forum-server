@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/auth/login.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:inline="javascript">const id = [[${id}]];</script>
+
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <div>
+        <div id="error" th:if="${error_status} == true">
+            <b th:text="${error_message}"></b>
+        </div>
+    </div>
+    <div id="login-block">
+        <form action="/login" method="post">
+            <b id="login-title">Login</b>
+            <input id="name" name="username" type="text" placeholder="Enter your name" required>
+            <input id="password" name="password" type="password" placeholder="Enter the password" required>
+            <button id="login-button" type="submit">login</button>
+        </form>
+        <a id="anonymous-button" href="/login/anonymous">continue as anonymous</a>
+    </div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

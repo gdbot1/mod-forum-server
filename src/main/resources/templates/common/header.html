@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+    <div id="header" th:fragment="header">
+        <b>Модi.укр</b>
+        <a class="main" href="/">Головна</a>
+        <a class="mods" href="/mods">Модi</a>
+        <a class="creators" href="/creators">Творцi</a>
+
+        <div th:if="${auth_status} == true">
+            <img class="auth-image" th:src="@{'/images/creators/' + ${auth_image}}">
+
+            <b th:if="${auth_success} == false" class="auth-name" th:text="${auth_name}"></b>
+            <a th:unless="${auth_success} == false" class="auth-name-link" th:text="${auth_name}" th:href="@{'/creator/' + ${auth_id}}"></a>
+
+            <a th:if="${auth_success} == true" class="logout" href="/logout">Вiйти</a>
+
+            <a th:if="${auth_success} == false" class="login" href="/login">Войтi</a>
+            <a th:if="${auth_success} == false" class="register" href="/register">Создать</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Модi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/body.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/catalog.css"/>
+    <link rel="stylesheet" href="/css/creator/creator.css"/>
+    <link rel="stylesheet" href="/css/creator/creator_mods_catalog.css"/>
+</head>
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<div id="content">
+    <div th:replace="~{common/creator :: creator-block(${creator}, ${sources})}"></div>
+    <div class="buttons-select-block">
+        <b class="selected">Модi</b>
+        <a class="unselected" th:href="'/creator/' + ${creator.id} + '/comments'">Коментарi</a>
+    </div>
+    <div id="search-block">
+        <input type="text" id="search-input" placeholder="Search..." th:value="${search}">
+        <button type="button" th:data-creator-id="${creator.id}" onclick="window.location.href = '/creator/' + this.dataset.creatorId + '/mods/page=0&search=' + document.getElementById('search-input').value;">Find</button>
+    </div>
+    <div id="catalog-block" th:style="'height: ' + ${page_size * (100 + 10)} + 'px;'">
+        <div th:each="modi, i : ${mods}">
+            <a class="mod-block" th:href="@{'/mod/'+${modi.id}}">
+                <img th:src="@{'/images/mods/' + ${modi.imagePath}}">
+                <!--<b class="mod-index" th:text="@{${i.index + (page * page_size) + 1} + ')'}"></b>-->
+                <div>
+                    <div>
+                        <b class="mod-name">
+                            <th:block th:text="${modi.name}"></th:block>
+                            <span class="mod-creator" th:text="@{'by ' + ${creator.name}}"></span>
+                            <img class="mod-creator-image" th:src="@{'/images/creators/' + ${creator.imagePath}}">
+                        </b>
+                    </div>
+                    <span class="mod-desc" th:text="${modi.description}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div th:replace="~{common/pagination :: pagination(${'/creator/' + creator.id + '/mods'}, '')}"></div>
+</div>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>
