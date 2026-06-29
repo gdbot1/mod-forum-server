@@ -66,10 +66,10 @@
     grid-template-rows: 1fr 1fr;
 
     width: 50%;
-    color: white;
     height: 38px;
     flex-shrink: 0;
 
+    color: white;
     text-align: center;
 }
 
