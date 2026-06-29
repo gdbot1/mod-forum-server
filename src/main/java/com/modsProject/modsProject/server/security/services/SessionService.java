@@ -19,7 +19,7 @@ public class SessionService {
     private final long expiration;
 
     public SessionService() {
-        this.expiration = 120000; //10 минут
+        this.expiration = 1000 * 60 * 60 * 24; //1 день
     }
 
     public String generateUUID() {

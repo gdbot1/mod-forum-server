@@ -3,8 +3,11 @@ package com.modsProject.modsProject.server.controllers.creators;
 import com.modsProject.modsProject.server.database.models.Creator;
 import com.modsProject.modsProject.server.database.repositories.CreatorRepository;
 import com.modsProject.modsProject.server.database.repositories.SourceRepository;
+import com.modsProject.modsProject.server.errors.InvalidUsernameException;
+import com.modsProject.modsProject.server.security.services.CreatorService;
 import com.modsProject.modsProject.utils.FileUtils;
 import com.modsProject.modsProject.utils.web.HtmlUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -24,13 +27,29 @@ import java.util.Optional;
 @Controller
 public class CreatorUpdateController {
     @Autowired
+    CreatorService creatorService;
+
+    @Autowired
     CreatorRepository creatorRepository;
 
     @Autowired
     SourceRepository sourceRepository;
 
     @GetMapping("creator/{id}/update")
-    public String getCreatorUpdate(@PathVariable Long id, Model model, Principal principal) {
+    public String getCreatorUpdate(@PathVariable Long id, Model model, Principal principal, HttpServletRequest request) {
+        String query = request.getQueryString();
+
+        if (query != null) {
+            switch (query) {
+                case "file" -> model.addAttribute("error_message", "Расширения: .png .jpg .jpeg и .gif");
+                case "error" -> model.addAttribute("error_message", "Данное имя пользователя уже занято");
+                case "avatar" -> model.addAttribute("error_message", "Неизвестная ошибка сохранения аватара.");
+                case "username" -> model.addAttribute("error_message", "Invalid username.");
+            }
+
+            model.addAttribute("error_status", true);
+        }
+
         if (principal == null || principal.getName().equals("-1") || !principal.getName().equals(id.toString())) {
             return "redirect:/creator/" + id;
         }
@@ -96,10 +115,13 @@ public class CreatorUpdateController {
 
         try {
             if (!username.equals(creator.getName()) || !description.equals(creator.getDescription())) {
-                creatorRepository.updateNameAndDescription(id, username, description);
+                creatorService.changeUsername(id, username);
+                creatorRepository.updateDescription(id, description);
             }
         } catch (DataIntegrityViolationException e) {
             return "redirect:/creator/" + id + "/update?error";
+        } catch (InvalidUsernameException e) {
+            return "redirect:/creator/" + id + "/update?username";
         }
 
         return "redirect:/creator/" + id;

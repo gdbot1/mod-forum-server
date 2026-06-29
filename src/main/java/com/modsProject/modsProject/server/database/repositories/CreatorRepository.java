@@ -30,4 +30,14 @@ public interface CreatorRepository extends JpaRepository<Creator, Long> {
     @Modifying
     @Query(value = "UPDATE creators SET name = :name, description = :description WHERE id = :id", nativeQuery = true)
     void updateNameAndDescription(@Param("id") Long id, @Param("name") String name, @Param("description") String description);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE creators SET name = :name WHERE id = :id", nativeQuery = true)
+    void updateName(@Param("id") Long id, @Param("name") String name);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE creators SET description = :description WHERE id = :id", nativeQuery = true)
+    void updateDescription(@Param("id") Long id, @Param("description") String description);
 }

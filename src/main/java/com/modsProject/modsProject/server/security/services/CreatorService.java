@@ -3,7 +3,10 @@ package com.modsProject.modsProject.server.security.services;
 import com.modsProject.modsProject.server.database.models.Creator;
 import com.modsProject.modsProject.server.database.repositories.CreatorRepository;
 import com.modsProject.modsProject.server.dto.CreatorDto;
+import com.modsProject.modsProject.server.errors.InvalidPasswordException;
+import com.modsProject.modsProject.server.errors.InvalidUsernameException;
 import com.modsProject.modsProject.server.errors.RegistrationDeniedException;
+import com.modsProject.modsProject.utils.web.ValidatorUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,23 @@ public class CreatorService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public void registration(CreatorDto creatorDto) throws DataIntegrityViolationException {
+    public void changeUsername(Long id, String username) throws DataIntegrityViolationException, InvalidUsernameException {
+        if (ValidatorUtils.usernameIsValid(username)) {
+            creatorRepository.updateName(id, username);
+        }
+        else {
+            throw new InvalidUsernameException("Username must containing symbols A-Z, a-z, 0-9, _ or - only and length must be in interval from 6 to 32");
+        }
+    }
+
+    public void registration(CreatorDto creatorDto) throws DataIntegrityViolationException, InvalidUsernameException, InvalidPasswordException {
+        if (!ValidatorUtils.passwordIsValid(creatorDto.getPassword())) {
+            throw new InvalidPasswordException("Password must containing symbols A-Z, a-z, 0-9, _, -, !, @, #, $, %, ^, &, *, (), +, =, {}, [], |, \\, :, ;, \", ', <>, ,, ., ?, /, ~ or ` only and length must be in interval from 6 to 32");
+        }
+        if (!ValidatorUtils.usernameIsValid(creatorDto.getName())) {
+            throw new InvalidUsernameException("Username must containing symbols A-Z, a-z, 0-9, _ or - only and length must be in interval from 6 to 32");
+        }
+
         Creator creator = new Creator();
 
         creator.setName(creatorDto.getName());

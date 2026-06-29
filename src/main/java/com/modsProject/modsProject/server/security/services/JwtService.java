@@ -21,7 +21,7 @@ public class JwtService {
 
     public JwtService() {
         this.secretKey = Keys.hmacShaKeyFor("0lNWcBE4VkyKvCDpnGT10FVxOIKbZwz48r3QaRjYDhn".getBytes(StandardCharsets.UTF_8));
-        this.expiration = 60000; //1 минут
+        this.expiration = 1000 * 60 * 16; //15 минут
     }
 
     public String generateToken(Long creator_id) {

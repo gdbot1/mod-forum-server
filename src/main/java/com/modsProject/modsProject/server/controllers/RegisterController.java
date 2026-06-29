@@ -2,10 +2,13 @@ package com.modsProject.modsProject.server.controllers;
 
 import com.modsProject.modsProject.server.database.models.Creator;
 import com.modsProject.modsProject.server.dto.CreatorDto;
+import com.modsProject.modsProject.server.errors.InvalidPasswordException;
+import com.modsProject.modsProject.server.errors.InvalidUsernameException;
 import com.modsProject.modsProject.server.security.services.AuthService;
 import com.modsProject.modsProject.server.security.services.CreatorService;
 import com.modsProject.modsProject.utils.FileUtils;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,21 +34,20 @@ public class RegisterController {
     CreatorService creatorService;
 
     @GetMapping("/register")
-    public String getRegister(@RequestParam(value = "file", required = false) String file, @RequestParam(value = "avatar", required = false) String avatar, @RequestParam(value = "error", required = false) String error, Model model) {
-        if (file != null) {
-            model.addAttribute("error_message", "Расширения: .png .jpg .jpeg и .gif");
+    public String getRegister(Model model, HttpServletRequest request) {
+        String query = request.getQueryString();
+
+        if (query != null) {
+            switch (query) {
+                case "file" -> model.addAttribute("error_message", "Расширения: .png .jpg .jpeg и .gif");
+                case "error" -> model.addAttribute("error_message", "Данное имя пользователя уже занято");
+                case "avatar" -> model.addAttribute("error_message", "Неизвестная ошибка сохранения аватара.");
+                case "password" -> model.addAttribute("error_message", "Invalid password.");
+                case "username" -> model.addAttribute("error_message", "Invalid username.");
+            }
+
+            model.addAttribute("error_status", true);
         }
-
-        if (error != null) {
-            model.addAttribute("error_message", "Данное имя пользователя уже занято");
-        }
-
-        if (avatar != null) {
-            model.addAttribute("error_message", "Неизвестная ошибка сохранения аватара.");
-        }
-
-        model.addAttribute("error_status", error!=null || avatar!=null || file!=null);
-
 
         return "register";
     }
@@ -81,6 +83,10 @@ public class RegisterController {
         }
         catch (DataIntegrityViolationException e) {
             return "redirect:/register?error";
+        } catch (InvalidPasswordException e) {
+            return "redirect:/register?password";
+        } catch (InvalidUsernameException e) {
+            return "redirect:/register?username";
         }
 
         //Успешная регистрация
